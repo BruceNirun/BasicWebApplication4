@@ -1,0 +1,82 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using WebApplication4.Data;
+using WebApplication4.Models;
+
+namespace WebApplication4.Controllers
+{
+    public class HomeController : Controller
+    {
+        
+        //private readonly ILogger<HomeController> _logger;
+
+        public ApplicationDbContext _Context { get; set; }
+        public HomeController(ApplicationDbContext context)
+        {
+            _Context = context;
+        }
+        public IActionResult Create(Animal animal)
+        {
+            _Context.Animals.Add(animal);
+            _Context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //public IActionResult Index()
+        //{
+        //    var model = _Context.animals.ToList();
+        //    return View(model);
+        //}
+        [HttpPost]
+        public IActionResult UpdateLeg(int animalId)
+        {
+            try
+            {
+                // ดึงข้อมูล Animal จากฐานข้อมูลด้วย AnimalId
+                var animal = _Context.Animals.FirstOrDefault(a => a.AnimalId == animalId);
+
+                if (animal != null)
+                {
+                    // ลดค่าของ Leg ทีละ 1
+                    if (animal.Leg > 0)
+                    {
+                        animal.Leg--;
+
+                        // บันทึกการเปลี่ยนแปลงลงในฐานข้อมูล
+                        _Context.SaveChanges();
+
+                        // ส่งคำตอบกลับให้เป็น JSON ถ้าต้องการ
+                        return Json(new { success = true });
+                    }
+                }
+
+                return Json(new { success = false, error = "Animal not found or Leg cannot be reduced further." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+        public IActionResult Index()
+        {
+            var model = new Naja
+            {
+                Animals = _Context.Animals.ToList()
+            }; // ดึงข้อมูลสัตว์จากฐานข้อมูลและแปลงเป็น List
+            return View(model); // ส่ง List ไปยังหน้า Razor view
+        }
+
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}

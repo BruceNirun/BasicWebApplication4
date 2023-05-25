@@ -1,0 +1,38 @@
+﻿@model WebApplication4.Data.Animal
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <div class="form-group">
+            <label>Name</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Type</label>
+            <input asp-for="Type" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Leg</label>
+            <input asp-for="Leg" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Arm</label>
+            <input asp-for="Arm" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Head</label>
+            <input asp-for="Head" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Eyes</label>
+            <input asp-for="Eyes" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Tail</label>
+            <input asp-for="Tail" class="form-control" />
+        </div>
+        <div class="form-group mt-2">
+            <input type="submit" class="btn btn-success" value="Save" />
+            <a asp-action="Index" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+</form>

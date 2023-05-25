@@ -1,0 +1,153 @@
+﻿@model WebApplication4.Models.Naja
+
+<div class="text-center">
+    <h1 class="display-4">My Animal</h1>
+</div>
+<div class="row">
+    <div class="col-2">
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input asp-for="Animal.Name" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Type</label>
+                    <input asp-for="Animal.Type" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Leg</label>
+                    <input asp-for="Animal.Leg" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Arm</label>
+                    <input asp-for="Animal.Arm" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Head</label>
+                    <input asp-for="Animal.Head" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Eyes</label>
+                    <input asp-for="Animal.Eyes" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <label>Tail</label>
+                    <input asp-for="Animal.Tail" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                    <input type="submit" class="btn btn-success" value="Save" />
+                    <a asp-action="Index" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name - Type</th>
+                    <th>Leg</th>
+                    <th>Arm</th>
+                    <th>Head</th>
+                    <th>Eyes</th>
+                    <th>Tail</th>
+                </tr>
+            </thead>
+            <tbody>      
+                @foreach (var item in Model.Animals)
+                {
+                    <tr>
+                        <td>@item.Name - @item.Type</td>
+                        <td>
+                            @for (int i = 0; i < item.Leg; i++)
+                            {
+                                <img src="/img/leg.jpg" width="50" height="50" alt="Animal Image" class="animal-image" data-animal-id="@item.AnimalId" data-leg="@item.Leg" />
+                            }
+                        </td>
+                        <td>
+                            @for (int i = 0; i < item.Arm; i++)
+                            {
+                                <img src="/img/arm.jpg" width="50" height="50">
+                            }
+                        </td>
+                        <td>
+                            @for (int i = 0; i < item.Head; i++)
+                            {
+                                <img src="/img/head.png" width="50" height="50">
+                            }
+                        </td>
+                        <td>
+                            @for (int i = 0; i < item.Eyes; i++)
+                            {
+                                <img src="/img/eye.jpg" width="50" height="50">
+                            }
+                        </td>
+                        <td>
+                            @for (int i = 0; i < item.Tail; i++)
+                            {
+                                <img src="/img/tail.jpg" width="50" height="50">
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.delete-image').click(function () {
+                var animalId = $(this).data('id');
+                var confirmDelete = confirm('Are you sure you want to delete this image?');
+                if (confirmDelete) {
+                    // ส่งค่า animalId ไปยังแอ็กชันใน Controller เพื่อดำเนินการลบ
+                    $.ajax({
+                        url: '/ControllerName/DeleteImage',
+                        type: 'POST',
+                        data: { animalId: animalId },
+                        success: function (result) {
+                            // ดำเนินการหลังจากลบรูปภาพเรียบร้อยแล้ว (ตามความต้องการของคุณ)
+                            // ตัวอย่าง: รีเฟรชหน้าหรือแสดงข้อความแจ้งเตือน
+                        },
+                        error: function () {
+                            // การจัดการเมื่อเกิดข้อผิดพลาด (ตามความต้องการของคุณ)
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.animal-image').click(function () {
+                var animalId = $(this).data('animal-id');
+                updateLeg(animalId);
+            });
+
+            function updateLeg(animalId) {
+                $.ajax({
+                    url: 'Home/UpdateLeg',
+                    type: 'POST',
+                    data: { animalId: animalId },
+                    success: function (response) {
+                        if (response.success) {
+                            // อัปเดตหน้าเว็บหรือปรับปรุงการแสดงผลตามที่ต้องการ
+                            // ตัวอย่าง: โหลดข้อมูลใหม่หรือรีเรนเดอร์ส่วนของตารางที่มีการแสดง Leg
+
+                            console.log('Leg updated successfully.');
+                        } else {
+                            console.log('Leg update failed: ' + response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('An error occurred during Leg update: ' + error);
+                    }
+                });
+            }
+        });
+    </script>
+}
