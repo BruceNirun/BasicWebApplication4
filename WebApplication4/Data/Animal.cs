@@ -21,15 +21,5 @@ namespace WebApplication4.Data
 
         public int Tail { get; set; }
 
-        //public Animal(string name, string type, int leg, int arm, int head, int eyes, int tail)
-        //{
-        //    Name = name;
-        //    Type = type;
-        //    Leg = leg;
-        //    Arm = arm;
-        //    Head = head;
-        //    Eyes = eyes;
-        //    Tail = tail;
-        //}
     }
 }
