@@ -12,6 +12,39 @@
         border: none;
         font-size: 14px;
     }
+
+    .animal-total-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    ..animal-part {
+        display: flex;
+        justify-content: center;
+    }
+
+    .arms {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .arm-left {
+        align-self: flex-start;
+    }
+
+    .arm-right {
+        align-self: flex-end;
+    }
+
+    .animal-total-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
 </style>
 <div class="text-center">
     <h1 class="display-4">My Animal</h1>
@@ -112,7 +145,7 @@
                             }
                             @for (int i = 0; i < item.Arm; i++)
                             {
-                                <img src="/img/arm.jpg" width="50" height="50">
+                                <img src="/img/arm.jpg" width="50" height="50" >
                             }
                             @for (int i = 0; i < item.Head; i++)
                             {
@@ -265,11 +298,11 @@
                         row.append(createImageCell(item.eyes, '/img/eye.jpg'));
                         row.append(createImageCell(item.tail, '/img/tail.jpg'));
 
-                        var totalCell = $('<td>');
-                        totalCell.append(createImageCell(item.leg, '/img/leg.jpg'));
-                        totalCell.append(createImageCell(item.arm, '/img/arm.jpg'));
+                        var totalCell = $('<td>', { class: 'animal-total-cell' });
                         totalCell.append(createImageCell(item.head, '/img/head.png'));
                         totalCell.append(createImageCell(item.eyes, '/img/eye.jpg'));
+                        totalCell.append(createImageCell(item.arm, '/img/arm.jpg'));
+                        totalCell.append(createImageCell(item.leg, '/img/leg.jpg'));
                         totalCell.append(createImageCell(item.tail, '/img/tail.jpg'));
                         row.append(totalCell);
 
