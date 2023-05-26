@@ -66,6 +66,7 @@
                     <th>Head</th>
                     <th>Eyes</th>
                     <th>Tail</th>
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,40 +105,23 @@
                                 <img src="/img/tail.jpg" width="50" height="50">
                             }
                         </td>
-                    </tr>
-                }
-            </tbody>
-            @*<tbody>      
-                @foreach (var item in Model.Animals)
-                {
-                    <tr>
-                        <td>@item.Name - @item.Type</td>
                         <td>
                             @for (int i = 0; i < item.Leg; i++)
                             {
-                                <img src="/img/leg.jpg" width="50" height="50" alt="Animal Image" class="animal-image" data-animal-id="@item.AnimalId" data-leg="@item.Leg" />
+                                <img src="/img/leg.jpg" width="50" height="50">
                             }
-                        </td>
-                        <td><input type="button" class="btn btn-success custom-btn add_leg" value="+" data-animal-id="@item.AnimalId" data-leg="@item.Leg" /></td>
-                        <td>
                             @for (int i = 0; i < item.Arm; i++)
                             {
                                 <img src="/img/arm.jpg" width="50" height="50">
                             }
-                        </td>
-                        <td>
                             @for (int i = 0; i < item.Head; i++)
                             {
                                 <img src="/img/head.png" width="50" height="50">
                             }
-                        </td>
-                        <td>
                             @for (int i = 0; i < item.Eyes; i++)
                             {
                                 <img src="/img/eye.jpg" width="50" height="50">
                             }
-                        </td>
-                        <td>
                             @for (int i = 0; i < item.Tail; i++)
                             {
                                 <img src="/img/tail.jpg" width="50" height="50">
@@ -145,7 +129,7 @@
                         </td>
                     </tr>
                 }
-            </tbody>*@
+            </tbody>
         </table>
     </div>
 </div>
@@ -280,6 +264,14 @@
                         row.append(createImageCell(item.head, '/img/head.png'));
                         row.append(createImageCell(item.eyes, '/img/eye.jpg'));
                         row.append(createImageCell(item.tail, '/img/tail.jpg'));
+
+                        var totalCell = $('<td>');
+                        totalCell.append(createImageCell(item.leg, '/img/leg.jpg'));
+                        totalCell.append(createImageCell(item.arm, '/img/arm.jpg'));
+                        totalCell.append(createImageCell(item.head, '/img/head.png'));
+                        totalCell.append(createImageCell(item.eyes, '/img/eye.jpg'));
+                        totalCell.append(createImageCell(item.tail, '/img/tail.jpg'));
+                        row.append(totalCell);
 
                         tableBody.append(row);
                     });

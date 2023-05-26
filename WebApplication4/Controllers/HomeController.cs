@@ -66,7 +66,7 @@ namespace WebApplication4.Controllers
                     // บันทึกการเปลี่ยนแปลงในฐานข้อมูล
                     _Context.SaveChanges();
 
-                    return Json(new { success = true });
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace WebApplication4.Controllers
                         _Context.SaveChanges();
 
                         // ส่งคำตอบกลับให้เป็น JSON ถ้าต้องการ
-                        return Json(new { success = true });
+                        return RedirectToAction("Index");
                     }
                 }
 
