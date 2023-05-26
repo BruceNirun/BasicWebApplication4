@@ -152,34 +152,34 @@
 
 @section Scripts {
     <script>
+        // นิยามฟังก์ชัน updateLeg ใน scope global
+        function updateLeg(animalId) {
+            $.ajax({
+                url: 'Home/DeleteLeg',
+                type: 'POST',
+                data: { animalId: animalId },
+                success: function (response) {
+                    if (response.success) {
+                        console.log('Leg updated successfully.');
+                    } else {
+                        console.log('Leg update failed: ' + response.error);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('An error occurred during Leg update: ' + error);
+                }
+            });
+        }
+
         $(document).ready(function () {
             $('.animal-image').click(function () {
+                console.log('Clicked on animal image');
                 var animalId = $(this).data('animal-id');
                 updateLeg(animalId);
             });
-
-            function updateLeg(animalId) {
-                $.ajax({
-                    url: 'Home/DeleteLeg',
-                    type: 'POST',
-                    data: { animalId: animalId },
-                    success: function (response) {
-                        if (response.success) {
-                            // อัปเดตหน้าเว็บหรือปรับปรุงการแสดงผลตามที่ต้องการ
-                            // ตัวอย่าง: โหลดข้อมูลใหม่หรือรีเรนเดอร์ส่วนของตารางที่มีการแสดง Leg
-
-                            console.log('Leg updated successfully.');
-                        } else {
-                            console.log('Leg update failed: ' + response.error);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('An error occurred during Leg update: ' + error);
-                    }
-                });
-            }
         });
     </script>
+
 
     @*<script>
         $(document).ready(function () {
@@ -271,10 +271,10 @@
                     tableBody.empty();
 
                     data.forEach(function (item) {
-                        console.log(item);
+                        //console.log(item);
                         var row = $('<tr>');
                         row.append($('<td>').text(item.name + ' - ' + item.type));
-                        row.append(createImageCell(item.leg, '/img/leg.jpg'));
+                        row.append(createImageCell(item.leg, '/img/leg.jpg', { class: "animal-image", value: "+", 'data-animal-id': item.animalId, 'data-leg': item.leg }));
                         row.append($('<td>').append($('<input>', { type: "button", class: "btn btn-success custom-btn add_leg", value: "+", 'data-animal-id': item.animalId, 'data-leg': item.leg })));
                         row.append(createImageCell(item.arm, '/img/arm.jpg'));
                         row.append(createImageCell(item.head, '/img/head.png'));
@@ -288,13 +288,35 @@
                 }
             }
 
-            function createImageCell(count, src) {
+            function createImageCell(count, src, attributes) {
+                attributes = attributes || {}; // กำหนดค่าเริ่มต้นเป็นวัตถุว่างถ้า attributes เป็น undefined
+
                 var cell = $('<td>');
                 for (var i = 0; i < count; i++) {
-                    cell.append($('<img>', { src: src, width: '50', height: '50' }));
+                    var image = $('<img>', {
+                        src: src,
+                        width: '50',
+                        height: '50',
+                        alt: 'Animal Image',
+                        class: attributes.class || '', // กำหนดค่าเริ่มต้นว่างถ้า attributes.class เป็น undefined
+                        'data-animal-id': attributes['data-animal-id'],
+                        'data-leg': attributes['data-leg']
+                    });
+
+                    // เพิ่มเหตุการณ์คลิกให้กับรูปภาพ
+                    image.click(function () {
+                        console.log('Clicked on animal image');
+                        var animalId = $(this).data('animal-id');
+                        console.log(animalId);
+                        updateLeg(animalId);
+                    });
+
+                    cell.append(image);
                 }
                 return cell;
             }
+
+
 
             updateTable();
         });
